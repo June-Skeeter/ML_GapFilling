@@ -53,10 +53,13 @@ class ReadStandardTimeFill:
         self.y_ftime = self.y[rolls+1:]
         self.TimeSteps = rolls+1
         
-    def Fill(self,Y_Pred):
+    def Fill(self,Y_Pred,Name):
         Y_fill = self.YScaled.inverse_transform(Y_Pred.reshape(-1,1))
         nanz = np.zeros(shape=(self.TimeSteps,1))
         nanz[:,:] = np.nan
         Y_Pred = np.concatenate((nanz,Y_fill),axis=0).reshape(-1,1)
+        # print(self.Master.shape)
+        # print(Y_fill.shape)
+        # print(Y_Pred.shape)
         self.Master['TempFIll'] = Y_Pred
-        self.Master[self.y_var+'_Filled'] = self.Master[self.y_var].fillna(self.Master['TempFIll'])
+        self.Master[Name] = self.Master[self.y_var].fillna(self.Master['TempFIll'])
