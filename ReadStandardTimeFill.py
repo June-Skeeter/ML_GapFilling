@@ -61,5 +61,5 @@ class ReadStandardTimeFill:
         # print(self.Master.shape)
         # print(Y_fill.shape)
         # print(Y_Pred.shape)
-        self.Master['TempFIll'] = Y_Pred
-        self.Master[Name] = self.Master[self.y_var].fillna(self.Master['TempFIll'])
+        self.Master['TempFill'] = Y_Pred
+        self.Master[Name] = self.Master[self.y_var].fillna(self.Master['TempFill'])
