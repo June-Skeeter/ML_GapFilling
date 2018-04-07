@@ -8,21 +8,21 @@ def Params(Func,Y,MP = True):
     params = {}
     if Func == 'Full':
         epochs = 600#1000
-        reps = 10#15
+        reps = 15
         N_Max = 100#200
         N_min = 2
         T_Max = 48
         samp_size = 15
-        Searches = 10
+        Searches = 8
         params['proc']=3
     elif Func == 'Test':
         epochs = 100
-        reps = 3
+        reps = 4
         N_Max = 100
         N_min = 5
         T_Max = 10
         samp_size = 5
-        Searches = 2
+        Searches = 4
         params['proc']=3
     if MP == False:
         params['proc']=1
