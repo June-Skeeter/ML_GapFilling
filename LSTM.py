@@ -2,27 +2,28 @@ import numpy as np
 import pandas as pd
 import math
 from sklearn import metrics
+from matplotlib import pyplot as plt
 
 def Params(Func,Y,MP = True):
     params = {}
     if Func == 'Full':
-        epochs = 1000
-        reps = 50
-        N_Max = 200
+        epochs = 600#1000
+        reps = 10#15
+        N_Max = 100#200
         N_min = 2
         T_Max = 48
-        samp_size = 20
+        samp_size = 15
         Searches = 10
         params['proc']=3
     elif Func == 'Test':
-        epochs = 50
-        reps = 3
+        epochs = 100
+        reps = 5
         N_Max = 100
         N_min = 2
         T_Max = 10
-        samp_size = 6
-        Searches = 2
-        params['proc']=2
+        samp_size = 3
+        Searches = 3
+        params['proc']=3
     if MP == False:
         params['proc']=1
     N = np.array(np.random.rand(samp_size)*N_Max+N_min,dtype='int32')
@@ -31,6 +32,7 @@ def Params(Func,Y,MP = True):
     Runs = pd.DataFrame(data=d)
     params['T_Max'] = T_Max
     params['N_Max'] = N_Max
+    params['N_Min'] = N_Min
     params['reps'] = reps
     params['epochs'] = epochs
     params['Y'] = Y
@@ -91,6 +93,11 @@ def Train_Steps(epochs,Neurons,X_train,X_test,X_val,y_train,y_test,y_val,i,X_fil
         e +=1
     Mod.set_weights(min_weights)
     Yval = Mod.predict(X_val,batch_size = X_val.shape[0])
+    # plt.figure()
+    # plt.scatter(Yval,y_val)
+    # yl = plt.ylim()
+    # plt.xlim(yl[0],yl[1])
+    # plt.show()
     MSE = metrics.mean_squared_error(y_val,Yval)
     Scorez=np.asanyarray(Scorez)
     y_fill = Mod.predict(X_fill,batch_size=X_fill.shape[0])
