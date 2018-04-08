@@ -10,6 +10,7 @@ class ReadStandardTimeFill:
         self.Master = self.Master.set_index(pd.DatetimeIndex(pd.to_datetime(self.Master['datetime'])))
         self.Master['DOY'] = self.Master.index.dayofyear*1.0
         self.Master['HR'] = self.Master.index.hour*1.0
+        self.Master['fch4'] *= 1000
         
     def Scale(self,y_var,X_vars):
         self.y_var = y_var
