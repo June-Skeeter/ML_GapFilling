@@ -8,21 +8,21 @@ def Params(Func,Y,MP = True):
     params = {}
     if Func == 'Full':
         epochs = 600#1000
-        reps = 10#15
+        reps = 15
         N_Max = 100#200
         N_min = 2
         T_Max = 48
         samp_size = 15
-        Searches = 10
+        Searches = 8
         params['proc']=3
     elif Func == 'Test':
         epochs = 100
-        reps = 5
+        reps = 4
         N_Max = 100
-        N_min = 2
+        N_min = 5
         T_Max = 10
-        samp_size = 3
-        Searches = 3
+        samp_size = 5
+        Searches = 4
         params['proc']=3
     if MP == False:
         params['proc']=1
@@ -32,7 +32,7 @@ def Params(Func,Y,MP = True):
     Runs = pd.DataFrame(data=d)
     params['T_Max'] = T_Max
     params['N_Max'] = N_Max
-    params['N_Min'] = N_Min
+    params['N_Min'] = N_min
     params['reps'] = reps
     params['epochs'] = epochs
     params['Y'] = Y
