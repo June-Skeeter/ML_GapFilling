@@ -11,6 +11,7 @@ class ReadStandardTimeFill:
         self.Master['DOY'] = self.Master.index.dayofyear*1.0
         self.Master['HR'] = self.Master.index.hour*1.0
         self.Master['fch4'] *= 1000
+        self.TimeSteps=0
         
     def Scale(self,y_var,X_vars):
         self.y_var = y_var
@@ -55,12 +56,13 @@ class ReadStandardTimeFill:
         self.TimeSteps = rolls+1
         
     def Fill(self,Y_Pred,Name):
+        print(self.TimeSteps)
         Y_fill = self.YScaled.inverse_transform(Y_Pred.reshape(-1,1))
-        nanz = np.zeros(shape=(self.TimeSteps,1))
-        nanz[:,:] = np.nan
-        Y_Pred = np.concatenate((nanz,Y_fill),axis=0).reshape(-1,1)
-        # print(self.Master.shape)
-        # print(Y_fill.shape)
-        # print(Y_Pred.shape)
+        if self.TimeSteps>0:
+            nanz = np.zeros(shape=(self.TimeSteps,1))
+            nanz[:,:] = np.nan
+            Y_Pred = np.concatenate((nanz,Y_fill),axis=0).reshape(-1,1)
+        else:
+            Y_Pred = Y_fill
         self.Master['TempFill'] = Y_Pred
         self.Master[Name] = self.Master[self.y_var].fillna(self.Master['TempFill'])

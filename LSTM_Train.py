@@ -33,12 +33,13 @@ def Train_Steps(epochs,Neurons,X_train,X_test,X_val,y_train,y_test,y_val,i,X_fil
     Mod = LSTM_Model(Neurons,X_train.shape[0],X_train.shape[1],X_train.shape[2],lr=lr,Memory=Memory)
     killscore=0
     killmax = 10
+    batch_size = 20 ## Batch size arbitrarily set to 10, will optimze later?
     e = 0
     udate = 3
     while killscore < killmax and e < epochs:
-        Mod.fit(X_train,y_train,batch_size=X_train.shape[0], nb_epoch=1,shuffle=True,verbose=0)
+        Mod.fit(X_train,y_train,batch_size=batch_size, epochs=1,shuffle=True,verbose=0) 
         old_weights = Mod.get_weights()
-        Y = Mod.predict(X_test,batch_size =X_test.shape[0])
+        Y = Mod.predict(X_test,batch_size =batch_size)
         score = metrics.mean_squared_error(y_test,Y)
         Scorez.append(score)
         if e == 0:
@@ -55,12 +56,7 @@ def Train_Steps(epochs,Neurons,X_train,X_test,X_val,y_train,y_test,y_val,i,X_fil
         Mod.reset_states()
         e +=1
     Mod.set_weights(min_weights)
-    Yval = Mod.predict(X_val,batch_size = X_val.shape[0])
-    # plt.figure()
-    # plt.scatter(Yval,y_val)
-    # yl = plt.ylim()
-    # plt.xlim(yl[0],yl[1])
-    # plt.grid()
+    Yval = Mod.predict(X_val,batch_size = batch_size)
     MSE = metrics.mean_squared_error(y_val,Yval)
     Scorez=np.asanyarray(Scorez)
     y_fill = Mod.predict(X_fill,batch_size=X_fill.shape[0])
