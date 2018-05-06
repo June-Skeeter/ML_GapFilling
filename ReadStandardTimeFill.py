@@ -56,7 +56,6 @@ class ReadStandardTimeFill:
         self.TimeSteps = rolls+1
         
     def Fill(self,Y_Pred,Name):
-        print(self.TimeSteps)
         Y_fill = self.YScaled.inverse_transform(Y_Pred.reshape(-1,1))
         if self.TimeSteps>0:
             nanz = np.zeros(shape=(self.TimeSteps,1))
