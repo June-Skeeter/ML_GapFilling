@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 def Params(Func,Y,MP = True):
     params = {}
     if Func == 'Full':
-        epochs = 500#1000
+        epochs = 400#1000
         reps = 30
         N_Max = 150#200
         N_min = 5
