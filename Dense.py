@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 def Params(Func,Y,MP = True):
     params = {}
     if Func == 'Full':
-        epochs = 400#1000
+        epochs = 200#1000
         reps = 30
         N_Max = 150#200
         N_min = 5
@@ -68,9 +68,8 @@ def Train_Steps(epochs,Neurons,X_train,X_test,X_val,y_train,y_test,y_val,i,X_fil
     lr = 1e-3
     Mod = Dense_Model(Neurons,X_train.shape[0],X_train.shape[1],lr=lr,Memory=Memory)
     killscore=0
-    killmax = 5
+    killmax = 2
     e = 0
-    udate = 3
     batch_size=100
     while killscore < killmax and e < epochs:
         Mod.fit(X_train,y_train,batch_size=batch_size, epochs=1,shuffle=True,verbose=0)
