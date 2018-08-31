@@ -6,38 +6,35 @@ from matplotlib import pyplot as plt
 
 def Params(Func,Y,MP = True):
     params = {}
+    params['proc']=3
     if Func == 'Full':
         epochs = 200#1000
-        reps = 30
-        N_Max = 150#200
-        N_min = 5
+        K = 30
         # T_Max = 48
-        samp_size = 4
-        Searches = 3
-        params['proc']=3
     elif Func == 'Test':
         epochs = 100
-        reps = 4
-        N_Max = 100
-        N_min = 50
+        K = 5
         # T_Max = 10
-        samp_size = 2
-        Searches = 2
-        params['proc']=3
     if MP == False:
         params['proc']=1
-    # N = np.array(np.random.rand(samp_size)*N_Max+N_min,dtype='int32')
-    N = np.linspace(N_min,N_Max,samp_size,dtype='int32')
+    N_Max = 150
+    N_min = 5
+    n = 6
+    N = np.linspace(N_min,N_Max,n,dtype='int32')
     # T = np.array(np.random.rand(samp_size)*T_Max,dtype='int32')
     d = {'N':N}
     Runs = pd.DataFrame(data=d)
+    Runs['MSE'] = 0.0
+    Runs['STD'] = 0.0
+    Runs['CI'] = 0.0
+    Runs['SE'] = 0.0
     # params['T_Max'] = T_Max
     params['N_Max'] = N_Max
     params['N_Min'] = N_min
-    params['reps'] = reps
+    params['K'] = K
     params['epochs'] = epochs
     params['Y'] = Y
-    params['Searches']=Searches
+    #params['Searches']=Searches
     return(Runs,params)
 
 def Dense_Model(Neurons,batch_size,inputs,lr=1e-4,Memory=.9):
@@ -63,7 +60,7 @@ def Dense_Model(Neurons,batch_size,inputs,lr=1e-4,Memory=.9):
 
 def Train_Steps(epochs,Neurons,X_train,X_test,X_val,y_train,y_test,y_val,i,X_fill,Memory=None):
     np.random.seed(i)
-    from keras import backend as K
+    from keras import backend as Kb
     Scorez=[]
     lr = 1e-3
     Mod = Dense_Model(Neurons,X_train.shape[0],X_train.shape[1],lr=lr,Memory=Memory)
@@ -87,7 +84,7 @@ def Train_Steps(epochs,Neurons,X_train,X_test,X_val,y_train,y_test,y_val,i,X_fil
         else:
             killscore +=1
         if killscore == math.floor(killmax/2):
-            K.set_value(Mod.optimizer.lr, 0.5 * K.get_value(Mod.optimizer.lr))
+            Kb.set_value(Mod.optimizer.lr, 0.5 * Kb.get_value(Mod.optimizer.lr))
         Mod.reset_states()
         e +=1
     Mod.set_weights(min_weights)
