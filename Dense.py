@@ -21,7 +21,7 @@ def Params(Func,Y,MP = True):
     #N_min = 1
     #n = 7
     #N = np.linspace(N_min,N_Max,n,dtype='int32')
-    N = np.arange(1,11,1.25,dtype='int32')**2
+    N = np.arange(1,11,1,dtype='int32')**2
     # T = np.array(np.random.rand(samp_size)*T_Max,dtype='int32')
     d = {'N':N}
     Runs = pd.DataFrame(data=d)
