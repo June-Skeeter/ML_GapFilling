@@ -17,10 +17,11 @@ def Params(Func,Y,MP = True):
         # T_Max = 10
     if MP == False:
         params['proc']=1
-    N_Max = 150
-    N_min = 5
-    n = 6
-    N = np.linspace(N_min,N_Max,n,dtype='int32')
+   # N_Max = 14
+    #N_min = 1
+    #n = 7
+    #N = np.linspace(N_min,N_Max,n,dtype='int32')
+    N = np.arange(1,11,1.25,dtype='int32')**2
     # T = np.array(np.random.rand(samp_size)*T_Max,dtype='int32')
     d = {'N':N}
     Runs = pd.DataFrame(data=d)
@@ -29,8 +30,8 @@ def Params(Func,Y,MP = True):
     Runs['CI'] = 0.0
     Runs['SE'] = 0.0
     # params['T_Max'] = T_Max
-    params['N_Max'] = N_Max
-    params['N_Min'] = N_min
+    #params['N_Max'] = N_Max
+    #params['N_Min'] = N_min
     params['K'] = K
     params['epochs'] = epochs
     params['Y'] = Y
