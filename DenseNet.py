@@ -53,24 +53,24 @@ def Dense_Model(iteration,Neurons,batch_size,inputs,lr=1e-4,Memory=.9):
 def Train_Steps(epochs,Neurons,X_train,X_test,X_val,y_train,y_test,y_val,iteration,X_fill,Memory=None):
     np.random.seed(iteration)
     from keras import backend as K
-    Scorez=[]
-    lr = 1e-3
-    Mod,callbacks = Dense_Model(iteration,Neurons,X_train.shape[0],X_train.shape[1],lr=lr,Memory=Memory)
-    killscore=0
-    killmax = 5
-    e = 0
-    udate = 3
+    #Scorez=[]
+    #lr = 1e-3
+    Mod,callbacks = Dense_Model(iteration,Neurons,X_train.shape[0],X_train.shape[1],Memory=Memory)
+    #killscore=0
+    #killmax = 5
+    #e = 0
+    #udate = 3
     batch_size=50#100
     Mod.fit(X_train, # Features
-                      y_train, # Target vector
-                      epochs=epochs, # Number of epochs
-                      callbacks=callbacks, # Early stopping
-                      verbose=0, # Print description after each epoch
-                      batch_size=batch_size, # Number of observations per batch
-                      validation_data=(X_test, y_test)) # Data for evaluation
+            y_train, # Target vector
+            epochs=epochs, # Number of epochs
+            callbacks=callbacks, # Early stopping
+            verbose=0, # Print description after each epoch
+            batch_size=batch_size, # Number of observations per batch
+            validation_data=(X_test, y_test)) # Data for evaluation
     Yval = Mod.predict(X_val,batch_size = batch_size)
     MSE = metrics.mean_squared_error(y_val,Yval)
-    Scorez=np.asanyarray(Scorez)
+    #Scorez=np.asanyarray(Scorez)
     y_fill = Mod.predict(X_fill,batch_size=batch_size)
     Rsq = metrics.r2_score(y_val,Yval)
     return(MSE,y_fill,Yval,y_val,Rsq)
