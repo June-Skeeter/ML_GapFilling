@@ -27,7 +27,7 @@ def Params(Func,Y,MP = True):
     params['Y'] = Y
     return(Runs,params)
 
-def Dense_Model(iteration,Neurons,batch_size,inputs,lr=1e-4,Memory=.9):
+def Dense_Model(iteration,Neurons,batch_size,inputs,lr=1e-4,Memory=.9,Save=False):
     import keras
     from keras.models import Sequential
     from keras.layers import Dense
@@ -46,16 +46,19 @@ def Dense_Model(iteration,Neurons,batch_size,inputs,lr=1e-4,Memory=.9):
     gpu_list = []
     for i in range(NUM_GPU): gpu_list.append('gpu(%d)' % i)
     model.compile(loss='mean_squared_error', optimizer='adam')#,context=gpu_list) # - Add if using MXNET
-    callbacks = [EarlyStopping(monitor='val_loss', patience=2),
+    if Save == True:
+        callbacks = [EarlyStopping(monitor='val_loss', patience=2),
              ModelCheckpoint(filepath='best_model'+str(iteration)+'.h5', monitor='val_loss', save_best_only=True)]
+    else:
+        callbacks = [EarlyStopping(monitor='val_loss', patience=2)]
     return(model,callbacks)
 
-def Train_Steps(epochs,Neurons,X_train,X_test,X_val,y_train,y_test,y_val,iteration,X_fill,Memory=None):
+def Train_Steps(epochs,Neurons,X_train,X_test,X_val,y_train,y_test,y_val,iteration,X_fill,Memory=None,Save = False):
     np.random.seed(iteration)
     from keras import backend as K
     #Scorez=[]
     #lr = 1e-3
-    Mod,callbacks = Dense_Model(iteration,Neurons,X_train.shape[0],X_train.shape[1],Memory=Memory)
+    Mod,callbacks = Dense_Model(iteration,Neurons,X_train.shape[0],X_train.shape[1],Memory=Memory,Save=Save)
     #killscore=0
     #killmax = 5
     #e = 0
@@ -73,4 +76,5 @@ def Train_Steps(epochs,Neurons,X_train,X_test,X_val,y_train,y_test,y_val,iterati
     #Scorez=np.asanyarray(Scorez)
     y_fill = Mod.predict(X_fill,batch_size=batch_size)
     Rsq = metrics.r2_score(y_val,Yval)
-    return(MSE,y_fill,Yval,y_val,Rsq)
+    return(y_fill,Yval)#,y_val,Rsq)
+    #return(MSE,y_fill,Yval,y_val,Rsq)
