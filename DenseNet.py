@@ -16,7 +16,7 @@ def Params(Func,Y,MP = True):
     elif Func == 'Test':
         epochs = 100
         K = 3
-        N = np.arange(2,12,2,dtype='int32')**2
+        N = np.arange(2,8,2,dtype='int32')**2
     N = np.repeat(N,K)
     d = {'N':N.astype(int)}
     Runs = pd.DataFrame(data=d)
